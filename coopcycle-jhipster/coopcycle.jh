@@ -34,7 +34,6 @@ entity Course{
 entity Menu{
 	id_ Integer required
     id_cooperative Integer required
-    lastupdate ZonedDateTime
 }
 
 entity Order{
