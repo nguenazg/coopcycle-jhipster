@@ -42,8 +42,7 @@ entity Order{
     id_cooperative Integer required
     id_customer Integer required
     id_course Integer required
-    totalPrice Integer min(3) max(300)
-    date ZonedDateTime
+    total Integer min(0) max(1000)
     state State
 }
 
@@ -57,8 +56,8 @@ entity Product{
 entity OrderContent{
 	id_product Integer required
     id_order Integer required
-    QuantityAsked Integer
-    ProductAvailable Boolean
+    quantity Integer
+    Disponibility Boolean
 }
 
 enum State {
