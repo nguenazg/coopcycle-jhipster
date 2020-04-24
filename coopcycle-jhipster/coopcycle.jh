@@ -1,0 +1,79 @@
+
+entity Cooperative {
+	id_ Integer required
+    name String minlength(1)
+    telephone String minlength(10) maxlength(10)
+	address String required minlength(1)
+}
+
+entity Customer {
+	id_ Integer required
+    login String required unique minlength(3) maxlength(40)
+    email String required unique pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+    password String required minlength(8)
+    name String minlength(1)
+    surname String minlength(1)
+    telephone String minlength(10) maxlength(10)
+	address String required
+}
+
+entity Deliverer {
+	id_ Integer required
+    name String minlength(1)
+    surname String minlength(1)
+    telephone String minlength(10) maxlength(10)
+    latitude Float required
+    longitude Float required
+}
+
+entity Course{
+	id_course Integer required
+    id_delverer Integer required
+}
+
+entity Menu{
+	id_ Integer required
+    id_cooperative Integer required
+    lastupdate ZonedDateTime
+}
+
+entity Order{
+    id_order Integer required
+    id_cooperative Integer required
+    id_customer Integer required
+    id_course Integer required
+    totalPrice Integer min(3) max(300)
+    date ZonedDateTime
+    state State
+}
+
+entity Product{
+    name String minlength(1)
+	id_product Integer required
+    price Float required min(0)
+    disponibility required Boolean
+}
+
+entity OrderContent{
+	id_product Integer required
+    id_order Integer required
+    QuantityAsked Integer
+    ProductAvailable Boolean
+}
+
+enum State {
+    Pendingdeliverer, Pendingpreparation, Inprogress, Delivered
+}
+
+relationship OneToMany {
+    Customer to Order
+    Deliverer to Course
+    Menu to Product
+    Course to Order
+    Cooperative{order} to Order{cooperative}
+    Order to OrderContent
+}
+
+relationship ManyToMany{
+	OrderContent{product required} to Product{ordercontent}
+}
